@@ -52,9 +52,7 @@ export function Mapa(props) {
         showMarker={showMarker}
         showInfoWindow={showInfoWindow}
         onMarkerClick={() => setShowInfoWindow(true)}
-        googleMapURL={
-          "https://maps.googleapis.com/maps/api/js?key=AIzaSyBsXKuSYJrJZDk03Cc2AfIZIib2M_-raRU&libraries=geometry,drawing,places"
-        }
+        googleMapURL={API URL}
       />{" "}
     </div>
   );
