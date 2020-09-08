@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import {
   withScriptjs,
   withGoogleMap,
@@ -6,7 +6,6 @@ import {
   Marker,
   Polygon,
 } from "react-google-maps";
-
 const defaultCoor = { lat: -2.084999, lng: -79.934336 };
 
 const triangleCoords = [
@@ -33,15 +32,6 @@ export function Mapa(props) {
   const [showMarker, setShowMarker] = React.useState(false);
   const [showInfoWindow, setShowInfoWindow] = React.useState(false);
 
-  /*componentDidMount() {
-    console.log("ENTRO AL METODO");
-    fetch("http://localhost:4000/markers")
-      .then((res) => res.json())
-      .then((response) => {
-		console.log(response);
-      });
-  }*/
-
   return (
     <div>
       <AsyncMap
@@ -52,7 +42,9 @@ export function Mapa(props) {
         showMarker={showMarker}
         showInfoWindow={showInfoWindow}
         onMarkerClick={() => setShowInfoWindow(true)}
-        googleMapURL={API URL}
+        googleMapURL={
+          "El api es propiedad empresarial, subirlo a un repositorio publico es contra el protocolo, se pondra en la pruebas y en el deployd Local. En el host remoto, se implementara la version desarrollador"
+        }
       />{" "}
     </div>
   );
@@ -64,6 +56,7 @@ const AsyncMap = withScriptjs(
       <Marker onClick={props.onMarkerClick} position={defaultCoor}>
         {props.showInfoWindow && console.log("descripcion de la ubicacion")}
       </Marker>
+
       <Polygon
         key={"polygon" + 1}
         path={triangleCoords}
