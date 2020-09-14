@@ -276,7 +276,7 @@ class Mapa extends React.Component {
           onMarkerClick={() => this.showInfoMarker()}
           Center={this.getCoords(this.state.lat, this.state.lng)}
           googleMapURL={
-            "https://maps.googleapis.com/maps/api/js?key=AIzaSyBsXKuSYJrJZDk03Cc2AfIZIib2M_-raRU&libraries=geometry,drawing,places"
+            "URL"
           }
         />{" "}
       </div>
