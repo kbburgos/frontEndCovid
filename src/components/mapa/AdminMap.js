@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { db } from "../../firebase-config";
+import React from "react";
+import firebase from "../../firebase-config";
 import { Result, Button, Row } from "antd";
 
-class AdminMap extends Component {
+class AdminMap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -10,12 +10,13 @@ class AdminMap extends Component {
 
   componentWillMount = () => {
     this.getDatafb();
-    this.getDataAPI();
+    // this.getDataAPI();
   };
 
   getDatafb = () => {
     let arr = [];
-    db.collection("sector")
+    firebase.firestore
+      .collection("sector")
       .get()
       .then((query) => {
         query.forEach((doc) => {
@@ -26,6 +27,8 @@ class AdminMap extends Component {
       });
   };
 
+  /*
+
   getDataAPI = () => {
     fetch("http://localhost:4000/markers")
       .then((res) => res.json())
@@ -33,9 +36,24 @@ class AdminMap extends Component {
         console.log("DATA FROM API: ", response);
       });
   };
-
+*/
   render() {
-    return <div className="container">Pantalla Principal</div>;
+    return (
+      <div className="container">
+        <Result
+          status="success"
+          title="Successfully Purchased Cloud Server ECS!"
+          subTitle="Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait."
+          extra={[
+            <Button type="primary" key="console">
+              Go Console
+            </Button>,
+            <Button key="buy">Buy Again</Button>,
+          ]}
+        />
+        ,
+      </div>
+    );
   }
 }
 

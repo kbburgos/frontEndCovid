@@ -15,4 +15,4 @@ var firebaseConfig = {
 
 const fb = firebase.initializeApp(firebaseConfig);
 
-export const db = fb.firestore();
+export const dba = fb.auth();

@@ -1,17 +1,23 @@
-import React, { Component } from "react";
+import React from "react";
 import "./App.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { Mapa } from "./components/mapa/map";
-import AdminMap from "./components/mapa/AdminMap"
+import Mapa from "./components/mapa/map";
+import Home from "./components/home/home";
+import Registro from "./components/registro/registro";
+import Login from "./components/login/login";
+import "antd/dist/antd.css";
 
-class App extends Component {
+class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
         <div className="container">
           <Switch>
-            <Route path="/" component={AdminMap} exact />
+            <Route path="/registro" component={Registro} exact />
+            <Route path="/home" component={Home} exact />
+            <Route path="/" component={Home} exact />
             <Route path="/mapa" component={Mapa} exact />
+            <Route path="/login" component={Login} exact />
           </Switch>
         </div>
       </BrowserRouter>

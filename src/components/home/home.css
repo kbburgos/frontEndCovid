@@ -1,0 +1,72 @@
+.back {
+  height: 100vh;
+  background-image: url("https://www.invitesip.com/wp-content/uploads/2020/03/network4.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.cover {
+  height: 100vh;
+  background-color: rgba(29, 29, 32, 0.575);
+  width: 100%;
+  filter: blur(0.3rem);
+  -webkit-filter: blur(0.3rem);
+}
+
+.card {
+  margin: 1rem;
+  width: 50%;
+  height: 50%;
+
+  border-radius: 4rem;
+}
+
+.img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.max {
+  height: 50%;
+}
+
+.centrado {
+  margin-top: 3rem;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .centrado {
+    margin-top: 7rem;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  .card {
+    margin: 1rem;
+    width: 75%;
+    height: 50%;
+    border-radius: 3rem;
+  }
+
+  .img {
+    margin-top: 1rem;
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
