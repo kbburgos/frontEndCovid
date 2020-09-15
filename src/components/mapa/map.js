@@ -301,7 +301,9 @@ class Mapa extends React.Component {
           color={[this.state.color, this.state.color2, this.state.color3]}
           puntos={this.state.puntos}
           Center={this.getCoords(this.state.lat, this.state.lng)}
-          googleMapURL={"URL"}
+          googleMapURL={
+            "https://maps.googleapis.com/maps/api/js?key=AIzaSyBsXKuSYJrJZDk03Cc2AfIZIib2M_-raRU&libraries=geometry,drawing,places"
+          }
         />{" "}
       </div>
     );
