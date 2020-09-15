@@ -191,21 +191,7 @@ class registro extends React.Component {
               onChange={this.changevalues}
             />
           </Form.Item>
-          <Form.Item
-            label="Sector"
-            name="sector"
-            rules={[{ required: true, message: "Please input your Sector!" }]}
-          >
-          {sectores && sectores !== undefined ? sectores.map((item,key)=>(
-            <tr>{key}
-            <td>{item.data.nombres}</td>
-            
-            <td></td>
-            </tr>
-
-          )):null}
-          </Form.Item>
-
+      
 
 
         
