@@ -117,6 +117,7 @@ class registro extends React.Component {
   parseIncritoToURL = () => {
     let params = new URLSearchParams({
       userSector: this.state.sectoruser,
+      userEmail: this.state.userEmail,
     });
 
     console.log(params.toString());

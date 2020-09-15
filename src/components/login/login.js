@@ -45,6 +45,7 @@ class login extends React.Component {
   parseIncritoToURL = () => {
     let params = new URLSearchParams({
       userSector: this.state.user.sector,
+      userEmail: this.state.email,
     });
 
     console.log(params.toString());
@@ -94,13 +95,6 @@ class login extends React.Component {
               valido: true,
             });
           }
-        } else {
-          console.log("No es correcto");
-          this.setState({
-            //user: reg,
-            valido: false,
-          });
-          message.error("email o contrasenia incorrecto");
         }
       });
     } catch (err) {

@@ -112,6 +112,7 @@ class Home extends React.Component {
       lat: this.state.lat,
       lng: this.state.lng,
       user: this.state.params.get("userSector"),
+      email: this.state.params.get("userEmail"),
     });
 
     console.log(params.toString());
@@ -193,10 +194,10 @@ class Home extends React.Component {
               inlineCollapsed={this.state.collapsed}
             >
               <Menu.Item key="1" icon={<CloseCircleOutlined />}>
-                Reportar Zona
+                <Link to={"/reporte"}>Reportar Zona</Link>
               </Menu.Item>
               <Menu.Item key="2" icon={<AimOutlined />}>
-                Semáforo
+                <Link to={"/semaforo"}>Semáforo</Link>
               </Menu.Item>
               <Menu.Item key="3" icon={<EnvironmentOutlined />}>
                 <Link to={"/mapa" + this.parseIncritoToURL()}>Mi Zona</Link>
