@@ -21,32 +21,43 @@ import {
 } from "@ant-design/icons";
 import { db } from "../../firebase-config";
 
-const triangleCoords2 = [
-  { lat: -2.12774276884688, lng: -79.92290571883063 },
-  { lat: -2.128580995669122, lng: -79.94010071908531 },
-  { lat: -2.127272980281045, lng: -79.9402080074459 },
-  { lat: -2.1244854028033013, lng: -79.93347796293894 },
-  { lat: -2.124431795494788, lng: -79.94098048364219 },
-];
 const { SubMenu } = Menu;
+
+const arrayColores = ["rojo", "amarillo", "verde"];
 
 const AsyncMap = withScriptjs(
   withGoogleMap((props) => (
-    <GoogleMap defaultZoom={16} defaultCenter={props.Center}>
+    <GoogleMap defaultZoom={18} defaultCenter={props.Center}>
       <Marker onClick={props.onMarkerClick} position={props.Center}>
-        {props.showInfoWindow && console.log("descripcion de la ubicacion")}
+        {props.motivo && (
+          <Modal
+            visible={props.show}
+            centered
+            title={"Reporte de Zona"}
+            footer={[]}
+            onCancel={props.close}
+          >
+            Esta zona ha sido reportada por los siguientes motivos:
+            {<br />}
+            {<br />}
+            {props.motivo}
+          </Modal>
+        )}
       </Marker>
-
-      <Polygon
-        path={triangleCoords2}
-        options={{
-          fillColor: "red",
-          fillOpacity: 0.1,
-          strokeWeight: 1,
-          clickable: false,
-          zIndex: 2,
-        }}
-      />
+      {props.puntos &&
+        props.puntos.map((coo, index) => (
+          <Polygon
+            key={"polygon" + index}
+            path={coo}
+            options={{
+              fillColor: Object.values(props.color)[index],
+              fillOpacity: 0.1,
+              strokeWeight: 1,
+              clickable: false,
+              zIndex: 2,
+            }}
+          />
+        ))}
     </GoogleMap>
   ))
 );
@@ -63,10 +74,13 @@ class Mapa extends React.Component {
       lng: null,
       color: null,
       sector: null,
+      sectores: [],
       puntos: null,
       motivo: [],
-      veces: 0,
-      modal: false,
+      veces: [],
+      color2: null,
+      color3: null,
+      modal: true,
       coordenadas: [],
       params: new URLSearchParams(this.props.location.search),
       visible: false,
@@ -74,89 +88,114 @@ class Mapa extends React.Component {
   }
 
   getDatafb = () => {
-    let arr = [];
+    let tmp = [];
+    let sectors = [];
     db.collection("sector")
       .get()
       .then((query) => {
-        console.log(query);
         query.forEach((doc) => {
-          console.log(doc);
           let data = doc.data();
+          let arr = [];
           console.log(data);
-          console.log(doc.id);
-          console.log(this.state.sector);
-          if (doc.id === this.state.sector) {
-            arr.push(data.puntos);
-          }
-        });
-        console.log("puntos: ", arr);
-        this.setState({
-          puntos: arr,
-        });
+          let arreglo = {
+            sector: data,
+            id_sector: doc.id,
+          };
+          sectors.push(arreglo);
 
-        let triangleCoords2 = [
-          { lat: -2.12774276884688, lng: -79.92290571883063 },
-          { lat: -2.128580995669122, lng: -79.94010071908531 },
-          { lat: -2.127272980281045, lng: -79.9402080074459 },
-          { lat: -2.1244854028033013, lng: -79.93347796293894 },
-          { lat: -2.124431795494788, lng: -79.94098048364219 },
-        ];
-        return triangleCoords2;
+          data.puntos.forEach((coord) => {
+            let pt = {
+              lat: parseFloat(coord.lat),
+              lng: parseFloat(coord.lng),
+            };
+            arr.push(pt);
+          });
+          tmp.push(arr);
+        });
+        console.log("puntos: ", tmp);
+        console.log("sectores: ", sectors);
+        this.setState(
+          {
+            puntos: tmp,
+            sectores: sectors,
+          },
+          this.getReport(sectors)
+        );
       });
   };
 
-  cerrar = () => {
+  cerrar() {
     this.setState({
       modal: false,
     });
-  };
+  }
 
-  getReport = () => {
+  getReport = (sectors) => {
     let arr = [];
-    let cont = 0;
+    let motivo1 = [];
+    let motivo2 = [];
+    let motivo3 = [];
+    let cont1 = 0;
+    let cont2 = 0;
+    let cont3 = 0;
     db.collection("reporte")
       .get()
       .then((query) => {
-        console.log(query);
         query.forEach((doc) => {
-          console.log(doc);
           let data = doc.data();
+          if (data.sector === "4zMBtbXeNn9PPIq5NLYC") {
+            motivo1.push(data.motivo);
+            cont1 += 1;
+            this.asignarColor(cont1);
+          } else if (data.sector === "Q9XvuVCzxo3emXpEDLjl") {
+            motivo2.push(data.motivo);
+            cont2 += 1;
+            this.asignarColor(cont2);
+          } else {
+            motivo3.push(data.motivo);
+            cont3 += 1;
+            this.asignarColor(cont3);
+          }
 
           if (data.sector === this.state.sector) {
             arr.push(data.motivo);
-            cont = cont + 1;
-            console.log(cont);
-            console.log(data.motivo);
-            this.setState({
-              veces: cont,
-            });
           }
         });
       });
     this.setState({
       motivo: arr,
+      veces: [
+        {
+          sector: "4zMBtbXeNn9PPIq5NLYC",
+          motivo: motivo1,
+        },
+        {
+          sector: "Q9XvuVCzxo3emXpEDLjl",
+          motivo: motivo2,
+        },
+        {
+          sector: "eOgSgI80Bldr2GC1pDo5",
+          motivo: motivo3,
+        },
+      ],
     });
   };
 
-  createCoordPy = () => {
-    let temp = [];
-    let data = this.state.puntos;
-    console.log(data);
-    if (data) {
-      data.forEach((re) => {
-        let pt = {
-          lat: parseFloat(re.lat),
-          lng: parseFloat(re.lng),
-        };
-        temp.push(pt);
+  asignarColor = (cont) => {
+    console.log(cont);
+    if (cont >= 4) {
+      this.setState({
+        color: "DARKRED",
+      });
+    } else if (cont < 4 && cont > 1) {
+      this.setState({
+        color2: "yellow",
       });
     } else {
-      console.log("not yet");
+      this.setState({
+        color3: "green",
+      });
     }
-    this.setState({
-      puntos: temp,
-    });
-    console.log(this.state.puntos);
   };
 
   toggleCollapsed = () => {
@@ -168,15 +207,14 @@ class Mapa extends React.Component {
 
   componentDidMount() {
     this.setState({
-      lat: -2.12774276884688,
+      lat: -2.128367,
       //parseFloat(this.state.params.get("lat")),
-      lng: -79.92290571883063,
+      lng: -79.921623,
       sector: this.state.params.get("user"),
       //parseFloat(this.state.params.get("lng")),
     });
     console.log(this.state);
     this.getDatafb();
-    this.getReport();
   }
 
   getCoords = (lati, ln) => {
@@ -188,9 +226,7 @@ class Mapa extends React.Component {
   };
 
   showInfoMarker() {
-    console.log(this.state.veces);
-
-    this.setState({ color: "rojo", modal: true });
+    this.setState({ modal: true });
   }
 
   render() {
@@ -252,32 +288,20 @@ class Mapa extends React.Component {
             </div>
           </div>
         </Row>
-        {this.state.modal && (
-          <Modal
-            visible={this.state.modal}
-            centered
-            title={"Reporte de Zona"}
-            footer={[]}
-            onCancel={this.cerrar}
-          >
-            Esta zona ha sido reportada {this.state.veces} por los siguientes
-            motivos:
-            {<br />}
-            {listItems}
-          </Modal>
-        )}
         <AsyncMap
           setShowMarker={true}
           loadingElement={<div style={{ height: `100%` }} />}
           containerElement={<div style={{ height: `50rem` }} />}
           mapElement={<div style={{ height: `100%` }} />}
           showMarker={true}
-          showInfoWindow={true}
+          show={this.state.modal}
+          motivo={listItems}
           onMarkerClick={() => this.showInfoMarker()}
+          close={() => this.cerrar()}
+          color={[this.state.color, this.state.color2, this.state.color3]}
+          puntos={this.state.puntos}
           Center={this.getCoords(this.state.lat, this.state.lng)}
-          googleMapURL={
-            "URL"
-          }
+          googleMapURL={"URL"}
         />{" "}
       </div>
     );
