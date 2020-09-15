@@ -44,7 +44,19 @@
   text-align: center;
 }
 
+.centradochar {
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
 @media only screen and (max-width: 600px) {
+  .charts {
+    margin-top: 1rem;
+    margin-left: 0.5rem;
+  }
   .centrado {
     margin-top: 7rem;
     align-items: center;

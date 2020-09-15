@@ -96,6 +96,10 @@ class login extends React.Component {
           }
         } else {
           console.log("No es correcto");
+          this.setState({
+            //user: reg,
+            valido: false,
+          });
           message.error("email o contrasenia incorrecto");
         }
       });

@@ -1,7 +1,8 @@
 import * as React from "react";
 import "./home.css";
-import { Button, Menu } from "antd";
+import { Button, Menu, Row } from "antd";
 import { Link, Route } from "react-router-dom";
+import { Chart } from "react-google-charts";
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -13,8 +14,16 @@ import {
   AimOutlined,
   CloseCircleOutlined,
 } from "@ant-design/icons";
+import { csv } from "d3";
+import documento from "../../covid.json";
+import { parse } from "papaparse";
 
 const { SubMenu } = Menu;
+
+const row = (d) => {
+  d.population = +d.population;
+  return d;
+};
 
 class Home extends React.Component {
   constructor(props) {
@@ -23,6 +32,8 @@ class Home extends React.Component {
       collapsed: false,
       lat: null,
       lng: null,
+      data: null,
+      datafinal: null,
       params: new URLSearchParams(this.props.location.search),
     };
     this.getLocation = this.getLocation.bind(this);
@@ -31,6 +42,49 @@ class Home extends React.Component {
 
   componentDidMount() {
     this.getLocation();
+    //this.getData();
+    this.llenarTabla(documento);
+  }
+
+  llenarTabla(arreglo) {
+    let temp = [];
+    for (let index = 0; index < arreglo.length; index++) {
+      console.log(arreglo[index]);
+      let dataTable = {
+        key: index,
+        provincia: arreglo[index].provincia,
+        casos: parseInt(arreglo[index].casos),
+      };
+      temp.push(dataTable);
+    }
+
+    this.setState({
+      data: temp,
+    });
+
+    this.ObtenerCantidad(temp);
+
+    console.log(temp);
+  }
+
+  ObtenerCantidad(coleccion) {
+    let dataTemp = [];
+    console.log(coleccion);
+    dataTemp.push(["provincia", "casos"]);
+    coleccion.map((data) => {
+      dataTemp.push([data.provincia, parseInt(data.casos)]);
+    });
+
+    console.log(dataTemp);
+
+    this.setState(
+      {
+        datafinal: dataTemp,
+      },
+      () => {
+        console.log(this.state.datafinal);
+      }
+    );
   }
 
   getLocation() {
@@ -63,8 +117,8 @@ class Home extends React.Component {
     console.log(params.toString());
     return `?${params.toString()}`;
   };
-
   render() {
+    console.log(this.state);
     return (
       <div className="container">
         <div
@@ -84,6 +138,37 @@ class Home extends React.Component {
             zIndex: 2,
           }}
         ></div>
+        <div
+          className="centradochar"
+          style={{ position: "absolute", zIndex: 3 }}
+        >
+          <div>
+            <Chart
+              width={"100%"}
+              height={"100%"}
+              style={{ padding: "1rem", marginTop: "3rem" }}
+              chartType="GeoChart"
+              data={[
+                ["Pais", "Casos covid"],
+                ["Brazil", 4349544],
+                ["Peru", 733860],
+                ["Colombia", 721892],
+                ["Argentina", 565446],
+                ["Chile", 437983],
+                ["Ecuador", 118911],
+                ["Uruguay", 1812],
+              ]}
+              options={{
+                region: "005",
+                colorAxis: { colors: ["#00853f", "black", "#e31b23"] },
+                backgroundColor: "#81d4fa",
+                datalessRegionColor: "#f8bbd0",
+                defaultColor: "#f5f5f5",
+              }}
+              rootProps={{ "data-testid": "4" }}
+            />
+          </div>
+        </div>
         <div
           style={{
             position: "absolute",
@@ -124,9 +209,6 @@ class Home extends React.Component {
                   Notificaciones
                 </Menu.Item>
               </SubMenu>
-              <Menu.Item key="4" icon={<LineChartOutlined />}>
-                Información Covid
-              </Menu.Item>
             </Menu>
           </div>
         </div>

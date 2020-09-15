@@ -1,0 +1,93 @@
+﻿[
+  {
+    "provincia": "Guayas",
+    "casos": "17257"
+  },
+  {
+    "provincia": "Pichincha",
+    "casos": "13159"
+  },
+  {
+    "provincia": "Manabí",
+    "casos": "6012"
+  },
+  {
+    "provincia": "Santo Domingo de los Tsáchilas",
+    "casos": "2996"
+  },
+  {
+    "provincia": "Esmeraldas",
+    "casos": "2906"
+  },
+  {
+    "provincia": "Azuay",
+    "casos": "2856"
+  },
+  {
+    "provincia": "El Oro",
+    "casos": "2758"
+  },
+  {
+    "provincia": "Los Ríos",
+    "casos": "2757"
+  },
+  {
+    "provincia": "Loja",
+    "casos": "1955"
+  },
+  {
+    "provincia": "Tungurahua",
+    "casos": "1833"
+  },
+  {
+    "provincia": "Cotopaxi",
+    "casos": "1785"
+  },
+  {
+    "provincia": "Morona Santiago",
+    "casos": "1745"
+  },
+  {
+    "provincia": "Pastaza",
+    "casos": "1274"
+  },
+  {
+    "provincia": "Orellana",
+    "casos": "1222"
+  },
+  {
+    "provincia": "Chimborazo",
+    "casos": "1196"
+  },
+  {
+    "provincia": "Imbabura",
+    "casos": "1182"
+  },
+  {
+    "provincia": "Santa Elena",
+    "casos": "1113"
+  },
+  {
+    "provincia": "Bolivar",
+    "casos": "1038"
+  },
+  {
+    "provincia": "Sucumbíos",
+    "casos": "988"
+  },
+  {
+    "provincia": "Zamora Chinchipe",
+    "casos": "859"
+  },
+  {
+    "provincia": "Napo",
+    "casos": "858"
+  },
+  {
+    "provincia": "Carchi",
+    "casos": "675"
+  },
+  {
+    "provincia": ""
+  }
+]
