@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1080630074257",
+    "firebase_url": "https://covidforce-eb161.firebaseio.com",
+    "project_id": "covidforce-eb161",
+    "storage_bucket": "covidforce-eb161.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1080630074257:android:3790b4b132d1d97c6a9830",
+        "android_client_info": {
+          "package_name": "com.example.reportecovid_lp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1080630074257-0hdkq0gh97ci0qg9meifub3q65u3hfd0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdhX-vw6QRsp0QtQQMkMGkIvvbkqk-Bmg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1080630074257-0hdkq0gh97ci0qg9meifub3q65u3hfd0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

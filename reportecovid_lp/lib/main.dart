@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong/latlong.dart';
-import 'map_key.dart';
-import 'reporte.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+void main() => runApp(MyApp2());
+
+class MyApp2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -24,75 +24,162 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  MapController _mapController;
-  FlutterMap _flutterMap;
-  List<Marker> myMarker = [];
-  var data;
-  @override
-  void initState() {
-    super.initState();
+  Map data;
+  String nombre;
+  String apellido;
+  String cedula;
+  String motivo;
+  String motivo2;
+  bool autoValidate = true;
+  bool readOnly = false;
+  bool showSegmentedControl = true;
+  final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
+
+
+  addData(){
+    Map<String,dynamic> demo = {"motivo": motivo , 
+    "sector": "desconocido", 
+    "usuario": cedula };
+
+    CollectionReference collection = Firestore.instance.collection('reporte');
+    collection.add(demo);
+
+    // Map<String,dynamic> demo2 = {"apellido": apellido, 
+    // "contrasenia": "desconocido", 
+    // "email": "desconocido",
+    // "nombres": nombre,
+    // "sector": "8 de mayo"
+    //  };
+
+    // CollectionReference collection2 = Firestore.instance.collection('usuario');
+    // collection.add(demo2);
+
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.zoom_out),
-        onPressed: () {
-          // var newZoom = _mapController.zoom - 1;      \\Activar para alejar zoom
-          // _mapController.move(_mapController.center, newZoom);
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => MyApp2())
-            );
-        },
+      appBar: AppBar(
+        title: Text("Reporte"),
       ),
-      body: _flutterMap = new FlutterMap(
-        mapController: _mapController,
-        options: new MapOptions(
-          center: new LatLng(-2.1968, -79.8934), //coordenadas de inicio
-          zoom: 13.0,
-          // onTap: _handleTap,
-        ),
-        layers: [
-          new TileLayerOptions(
-            // urlTemplate: "https://api.tiles.mapbox.com/v4/"
-            //     "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
-            urlTemplate: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            subdomains: ['a', 'b', 'c'],
-            additionalOptions: {
-              'accessToken': MAP_KEY,
-              'id': 'mapbox.streets',
-            },
-          ),
-          new MarkerLayerOptions(
-            markers: 
-
-            [
-              new Marker(
-                width: 80.0,
-                height: 80.0,
-                point: new LatLng(-2.1968, -79.8934),
-                builder: (ctx) => new Container(
-                  child: IconButton(
-                    icon: Icon(Icons.location_on),
-                    color: Color(0xff6200ee),
-                    iconSize: 45.0,
-                    onPressed: (){
-
-                    },
+      body: Padding(
+        padding: EdgeInsets.all(10),
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              FormBuilder(
+                key: _fbKey,
+                initialValue: {
+                  'date': DateTime.now(),
+                  'accept_terms': false,
+                },
+                autovalidate: true,
+                child: Column(
+                  children: <Widget>[
+                    FormBuilderTextField(
+                      attribute: 'text',
+                      validators: [FormBuilderValidators.required()],
+                      decoration: InputDecoration(labelText: "Nombre"),
+                      onChanged: (texto) {
+                        nombre = texto;
+                      },
                     ),
+                    FormBuilderTextField(
+                      attribute: 'text',
+                      validators: [FormBuilderValidators.required()],
+                      decoration: InputDecoration(labelText: "Apellido"),
+                      onChanged: (texto) {
+                        apellido = texto;
+                      },
+                    ),
+                    FormBuilderDateTimePicker(
+                      attribute: "date",
+                      inputType: InputType.date,
+                      validators: [FormBuilderValidators.required()],
+                      format: DateFormat("dd-MM-yyyy"),
+                      decoration: InputDecoration(labelText: "Fecha actual"),
+                    ),
+                    FormBuilderTextField(
+                      attribute: "Identificacion",
+                      decoration: InputDecoration(labelText: "Cedula"),
+                      keyboardType: TextInputType.number,
+                      validators: [
+                        FormBuilderValidators.numeric(),
+                        FormBuilderValidators.max(0999999999),
+                      ],
+                      onChanged: (texto) {
+                        cedula = texto;
+                      },
+                    ),
+                    FormBuilderSlider(
+                      attribute: "slider",
+                      validators: [FormBuilderValidators.min(6)],
+                      min: 0.0,
+                      max: 10.0,
+                      initialValue: 1.0,
+                      divisions: 20,
+                      decoration:
+                          InputDecoration(labelText: "Nivel de emergencia"),
+                    ),
+                    FormBuilderCheckboxGroup(
+                      decoration:
+                          InputDecoration(labelText: "Contravenciones vistas"),
+                      attribute: "contravencion",
+                      initialValue: ["Gente sin mascarillas"],
+                      options: [
+                        FormBuilderFieldOption(value: "Gente sin mascarillas"),
+                        FormBuilderFieldOption(
+                            value: "Incumplimiento de # de placas"),
+                        FormBuilderFieldOption(value: "Otros")
+                      ],
+                      onChanged: ( texto) {
+                        motivo2 = texto;
+                      },
+                    ),
+                    FormBuilderTextField(
+                      attribute: 'text',
+                      validators: [FormBuilderValidators.required()],
+                      decoration: InputDecoration(
+                          labelText: "Descripcion de lo ocurrido"),
+                    ),
+                    FormBuilderCheckbox(
+                      attribute: 'accept_terms',
+                      label: Text(
+                          "Yo he estoy de acuerdo con toda la informacion ingresada"),
+                      validators: [
+                        FormBuilderValidators.requiredTrue(
+                          errorText:
+                              "Debes aceptar el acuerdo de la informacion",
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
+              Row(
+                children: <Widget>[
+                  MaterialButton(
+                    child: Text("Enviar"),
+                    onPressed: () {
+                      addData();
+                      _fbKey.currentState.save();
+                      if (_fbKey.currentState.validate()) {
+                        print(_fbKey.currentState.value);
+                      }
+                    },
+                  ),
+                  MaterialButton(
+                    child: Text("Borrar"),
+                    onPressed: () {
+                      _fbKey.currentState.reset();
+                    },
+                  ),
+                ],
+              )
             ],
           ),
-        ],
+        ),
       ),
     );
   }
-
-  // void _handleTap(LatLng point) {
-  //   setState(() {
-  //     myMarker = [];
-  //     myMarker.add(Marker(point: _mapController.center));
-  //   });
-  // }
 }
