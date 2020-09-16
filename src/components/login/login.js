@@ -13,7 +13,7 @@ import {
 } from "antd";
 import { db } from "../../firebase-config";
 import "./login.css";
-import { Route, Link, Redirect, withRouter, Switch } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Home from "../home/home";
 
 const { Step } = Steps;
@@ -45,7 +45,6 @@ class login extends React.Component {
   parseIncritoToURL = () => {
     let params = new URLSearchParams({
       userSector: this.state.user.sector,
-      userEmail: this.state.email,
     });
 
     console.log(params.toString());
@@ -105,7 +104,16 @@ class login extends React.Component {
   render() {
     return (
       <div className="container">
-        <h1 style={{ paddingTop: "3rem", textAlign: "center" }}>Login</h1>
+        <h1
+          style={{
+            paddingTop: "3rem",
+            alignContent: "center",
+            textAlign: "center",
+            fontWeight: "bold",
+          }}
+        >
+          Login
+        </h1>
         <Form
           className="centrado"
           {...layout}
@@ -114,7 +122,7 @@ class login extends React.Component {
           onFinish={this.loginU}
         >
           <Form.Item
-            label="Username"
+            label="Email"
             name="username"
             rules={[{ required: true, message: "Please input your username!" }]}
           >

@@ -1,23 +1,8 @@
 import React from "react";
-import {
-  Steps,
-  Result,
-  Button,
-  Row,
-  Col,
-  Modal,
-  Form,
-  Input,
-  Select,
-  Tooltip,
-} from "antd";
-
-import { DownOutlined, UserOutlined } from "@ant-design/icons";
+import { Button, Form, Input, Select } from "antd";
 import { db } from "../../firebase-config";
 import "./registro.css";
-import { Route, Link, Redirect, withRouter, Switch } from "react-router-dom";
-import Home from "../home/home";
-import ActionButton from "antd/lib/modal/ActionButton";
+import { Link } from "react-router-dom";
 
 const layout = {
   labelCol: { span: 8 },
@@ -148,36 +133,11 @@ class registro extends React.Component {
       <div className="container">
         <h1 style={{ paddingTop: "3rem", textAlign: "center" }}>Registro</h1>
         <Form
-          className="centrado"
           {...layout}
           name="basic"
           initialValues={{ remember: true }}
           onFinish={this.action}
         >
-          <Form.Item
-            label="Apellido"
-            name="lastname"
-            rules={[{ required: true, message: "Please input your last!" }]}
-          >
-            <Input className="input" onChange={this.changevaluel} />
-          </Form.Item>
-
-          <Form.Item
-            label="Contrasenia"
-            name="password"
-            rules={[{ required: true, message: "Please input your password!" }]}
-          >
-            <Input.Password className="input" onChange={this.changevaluec} />
-          </Form.Item>
-
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[{ required: true, message: "Please input your email!" }]}
-          >
-            <Input className="input" onChange={this.changevaluee} />
-          </Form.Item>
-
           <Form.Item
             label="Nombre"
             name="nombre"
@@ -187,11 +147,38 @@ class registro extends React.Component {
           </Form.Item>
 
           <Form.Item
+            label="Apellido"
+            name="lastname"
+            rules={[{ required: true, message: "Please input your last!" }]}
+          >
+            <Input className="input" onChange={this.changevaluel} />
+          </Form.Item>
+
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: "Please input your email!" }]}
+          >
+            <Input className="input" onChange={this.changevaluee} />
+          </Form.Item>
+          <Form.Item
+            label="Contrasenia"
+            name="password"
+            rules={[{ required: true, message: "Please input your password!" }]}
+          >
+            <Input.Password className="input" onChange={this.changevaluec} />
+          </Form.Item>
+
+          <Form.Item
             label="Sector"
             name="sector"
             rules={[{ required: true, message: "Please input your Sector!" }]}
           >
-            <Select onChange={this.onCurrencyChange} value={this.state.sector}>
+            <Select
+              onChange={this.onCurrencyChange}
+              value={this.state.sector}
+              style={{ width: "56%" }}
+            >
               <Option value="4zMBtbXeNn9PPIq5NLYC">8 de Mayo</Option>
               <Option value="Q9XvuVCzxo3emXpEDLjl">Cdla. Hector Cobos</Option>
               <Option value="eOgSgI80Bldr2GC1pDo5">Coop. Buena de Dios</Option>
@@ -201,7 +188,7 @@ class registro extends React.Component {
           <Form.Item {...tailLayout}>
             {!this.state.valido && (
               <Button type="primary" htmlType="submit">
-                Submit
+                Registrar
               </Button>
             )}
             {this.state.valido && (

@@ -14,3 +14,6 @@ csv = CSV.open('sectores.csv','wb')
       csv<<[colu]
     end
 end
+
+
+

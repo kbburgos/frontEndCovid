@@ -132,6 +132,8 @@ class Mapa extends React.Component {
 
   getReport = (sectors) => {
     let arr = [];
+    let tmp = [];
+    let tempo = [];
     let motivo1 = [];
     let motivo2 = [];
     let motivo3 = [];
@@ -145,6 +147,8 @@ class Mapa extends React.Component {
           let data = doc.data();
           if (data.sector === "4zMBtbXeNn9PPIq5NLYC") {
             motivo1.push(data.motivo);
+            tmp.push(motivo1);
+
             cont1 += 1;
             this.asignarColor(cont1);
           } else if (data.sector === "Q9XvuVCzxo3emXpEDLjl") {
@@ -163,7 +167,7 @@ class Mapa extends React.Component {
         });
       });
     this.setState({
-      motivo: arr,
+      motivo: tmp,
       veces: [
         {
           sector: "4zMBtbXeNn9PPIq5NLYC",
@@ -301,7 +305,7 @@ class Mapa extends React.Component {
           color={[this.state.color, this.state.color2, this.state.color3]}
           puntos={this.state.puntos}
           Center={this.getCoords(this.state.lat, this.state.lng)}
-          googleMapURL={""}
+          googleMapURL={"API KEY"}
         />{" "}
       </div>
     );

@@ -1,12 +1,11 @@
 import * as React from "react";
 import "./home.css";
-import { Button, Menu, Row } from "antd";
-import { Link, Route } from "react-router-dom";
+import { Button, Menu } from "antd";
+import { Link } from "react-router-dom";
 import { Chart } from "react-google-charts";
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
-  LineChartOutlined,
   SettingOutlined,
   UserOutlined,
   SoundOutlined,
@@ -14,16 +13,9 @@ import {
   AimOutlined,
   CloseCircleOutlined,
 } from "@ant-design/icons";
-import { csv } from "d3";
 import documento from "../../covid.json";
-import { parse } from "papaparse";
 
 const { SubMenu } = Menu;
-
-const row = (d) => {
-  d.population = +d.population;
-  return d;
-};
 
 class Home extends React.Component {
   constructor(props) {
@@ -42,7 +34,6 @@ class Home extends React.Component {
 
   componentDidMount() {
     this.getLocation();
-    //this.getData();
     this.llenarTabla(documento);
   }
 

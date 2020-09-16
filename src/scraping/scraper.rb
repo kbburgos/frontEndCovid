@@ -22,3 +22,5 @@ csv = CSV.open('covid.csv','wb')
         csv<<[contagio[:provincia],contagio[:contagios]]
     end
 end
+
+
